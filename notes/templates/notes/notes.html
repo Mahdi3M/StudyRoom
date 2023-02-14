@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="row vh-100" style="width:100%;">
+  <div class="d-flex flex-column flex-shrink-0 pt-5 text-white bg-dark col-2">
+    <span class="fs-4 mt-5 text-center">My Notes</span>
+    <hr>
+    <ul class="nav nav-link mb-auto flex-column overflow-auto">
+      {% for doc in documents %}    
+        <li>
+          <a href="{% url 'notes_page' %}?docid={{ doc.id }}" class="nav-link text-white text-truncate">{{ doc.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <hr> 
+    <div class="d-flex justify-content-center"> 
+      <a class="btn btn-outline-light btn-sm px-4 mb-3" href="{% url 'notes_page' %}?docid=0" role="button" style="margin: 0 auto;">
+        New Note
+      </a>
+    </div>
+  </div>
+
+  <div class="col-10 mt-5 px-5 pt-5">
+    <form action="{% url 'notes_page' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="docid" value="{{ docid }}">
+      <div class="form-group">
+        <label class="form-label text-light" for=""><h5>Title</h5></label>
+        <input type="text" class=" form-control text-light bg-dark" name="title" placeholder="Title" {% if document %}value="{{ document.title }}"{% endif %}>
+      </div>
+      <div class="form-group mt-4">
+        <label class="form-label text-light" for=""><h5>Content</h5></label>
+        <textarea class="form-control bg-dark text-light" rows="15" name="content" placeholder="Content">{% if document %}{{ document.content }}{% endif %}</textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-outline-light btn-lg px-5 my-4" type="submit">
+          Save
+        </button>
+        {% if document %}
+          <a href="{% url 'delete_document' document.id %}" class="btn btn-outline-danger btn-lg px-5 m-4">Delete</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock body %}
