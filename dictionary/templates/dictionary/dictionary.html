@@ -1,50 +1,72 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="container pt-5">
-    <div class="container-fluid col-8 mt-5 p-4 rounded-3 bg-dark">
-        <h1 class="text-white text-center pb-3">English Dictionary</h1>
-        <form action="{% url 'dictionary_page' %}" class="d-flex" method="POST">
-        {% csrf_token %}
-            <input class="form-control me-2 border border-light bg-dark text-white" type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-light" type="submit">Search</button>
-        </form>
-    </div>
-    <div class="container-fluid col-8 my-5">
-    {% if search != '' %}     
-        <div class="bg-dark rounded my-3 p-3">
-            <h3 class="text-light"> {{ search }} </h3>
+    <div class="container pt-5">
+        <div class="container-fluid col-8 mt-5 p-4 rounded-3 bg-dark">
+            <h1 class="text-white text-center pb-3">
+                English Dictionary
+            </h1>
+            <form action="{% url 'dictionary_page' %}" class="d-flex" method="POST">
+                {% csrf_token %}
+                <input  
+                    class="form-control me-2 border border-light bg-dark text-white"
+                    type="search" 
+                    placeholder="Search" 
+                    aria-label="Search" 
+                    name="search">
+                <button class="btn btn-outline-light" type="submit">
+                    Search
+                </button>
+            </form>
         </div>
-        {% if meanings %}
-            <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
-                <h5 class="text-light">Meaning :</h5>
-                <div class="text-white ps-3">
-                    {% for meaning in meanings %}
-                        <div class="p-1">{{ meaning }}</div> </br>
-                    {% endfor %}
+        <div class="container-fluid col-8 my-5">
+            {% if search != '' %}     
+                <div class="bg-dark rounded my-3 p-3">
+                    <h3 class="text-light">
+                         {{ search }} 
+                    </h3>
                 </div>
-            </div>
-        {% endif %}
-        {% if synonyms %}
-            <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
-                <h5 class="text-light">Synonym :</h5>
-                <p class="text-white ps-3">
-                    {% for synonym in synonyms %}
-                        <span>{{ synonym }}, </span>
-                    {% endfor %}
-                </p>
-            </div>
-        {% endif %}
-        {% if antonyms %}
-        <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
-            <h5 class="text-light">Antonym :</h5>
-            <p class="text-white ps-3">
-                {% for antonym in antonyms %}
-                    <span>{{ antonym }},  </span>
-                {% endfor %}
-            </p>
+                {% if meanings %}
+                    <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
+                        <h5 class="text-light">Meaning :</h5>
+                        <div class="text-white ps-3">
+                            {% for meaning in meanings %}
+                                <div class="p-1">
+                                    &bull; {{ meaning |capfirst}}
+                                </div>
+                                </br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if synonyms %}
+                    <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
+                        <h5 class="text-light">
+                            Synonym :
+                        </h5>
+                        <p class="text-white ps-3">
+                            {% for synonym in synonyms %}
+                                <span>
+                                    {{ synonym }}, 
+                                </span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                {% endif %}
+                {% if antonyms %}
+                <div class="bg-dark rounded my-3 p-3 d-grid gap-1">
+                    <h5 class="text-light">
+                        Antonym :
+                    </h5>
+                    <p class="text-white ps-3">
+                        {% for antonym in antonyms %}
+                            <span>
+                                {{ antonym }},  
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+                {% endif %}
+            {% endif %}    
         </div>
-        {% endif %}
-    {% endif %}    
     </div>
-</div>
 {% endblock body %}

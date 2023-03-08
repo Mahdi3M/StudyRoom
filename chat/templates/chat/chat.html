@@ -1,120 +1,140 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="row vh-100" style="width:100%;">
-  <div class="mt-5 d-flex flex-column flex-shrink-0 pt-5 px-4 text-white bg-dark col-md-2 col-sm-3">
-    <span class="fs-4 text-center">Chat Rooms</span>
-    <hr>
-    <ul class="nav nav-link mb-auto flex-column overflow-auto">
-      {% for room in rooms %}  
-        <li class="p-0">
-          <a href="{% url 'room' room.slug %}" 
-          class="nav-link text-white text-truncate {% if room.slug == room_selected.slug %}bg-secondary rounded-pill py-2{% endif %} ps-4">{{ room.name }}</a>          
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="mt-5 pt-5 px-4 col-md-10 col-sm-9">
-    {% if room_selected %}
-      <div class="mx-5 p-2 bg-dark rounded-top">
-        <div class="d-flex flex-column overflow-auto text-light" id="chat-messages" style="height: 72vh">
-            {% for m in chats %}
-            <div class="mx-4">
-              <div class="rounded-pill bg-secondary py-2 px-4 my-3 {% if m.user.username == user.username %} float-end{% endif %}" style="width: max-content;">
-                <b>{{ m.user.username }}</b> :</br>{{ m.content }}
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-      </div>
-      <div class="mb-3 mx-5 p-2 bg-secondary rounded-bottom">
-        <form method="post" action="." class="d-flex">
-            <input type="text" name="content" class="flex-grow-1 me-2 py-2 px-4 bg-dark text-light rounded-3" placeholder="Your message..." id="chat-message-input">
-    
-            <button 
-                class="px-5 py-1 rounded-3 text-white bg-dark"
-                id="chat-message-submit"
-            >Submit</button>
-        </form>
-      </div>
-    {% endif %}  
-  </div>
-</div>
+	<div class="row vh-100" style="width:100%;">
+		<div class="mt-5 d-flex flex-column flex-shrink-0 pt-5 px-4 text-white bg-dark col-md-2 col-sm-3">
+			<span class="fs-4 text-center">
+				Chat Rooms
+			</span>
+			<hr>
+			<ul class="nav nav-link mb-auto flex-column overflow-auto">
+				{% for room in rooms %}  
+					<li class="p-0">
+						<a	href="{% url 'room' room.slug %}" 
+							class="nav-link text-white text-truncate ps-4 
+							{% if room.slug == room_selected.slug %} bg-secondary rounded-pill py-2{% endif %}">
+							{{ room.name }}
+						</a>          
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="mt-5 pt-4 px-4 col-md-10 col-sm-9 d-flex flex-column justify-content-center">
+			{% if room_selected %}
+				<div class="mx-5 p-2 bg-dark rounded-top">
+					<div class="d-flex flex-column overflow-auto text-light" id="chat-messages" style="height: 70vh">
+						{% for m in chats %}
+							<div class="mx-4">
+								<div	
+									class="rounded-pill bg-secondary py-2 px-4 my-3 
+									{% if m.user.username == user.username %} float-end{% endif %}" 
+									style="width: max-content;">
+									<b>{{ m.user.username }}</b> :</br>{{ m.content }}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="mb-3 mx-5 p-2 bg-secondary rounded-bottom">
+					<form method="post" action="." class="d-flex">
+						<input	
+							type="text"
+							name="content" 
+							class="flex-grow-1 me-2 py-2 px-4 bg-dark text-light rounded-3" 
+							placeholder="Your message..." 
+							id="chat-message-input">			
+						<button	class="px-5 py-1 rounded-3 text-white bg-dark"
+								id="chat-message-submit">
+									Submit
+						</button>
+					</form>
+				</div>
+			{% endif %}  
+		</div>
+	</div>
 {% endblock body %}
 
 {% block scripts %}
-  {% if room_selected %}
-    {{ room_selected.slug|json_script:"json-roomname" }}
-    {{ request.user.username|json_script:"json-username" }}
+	{% if room_selected %}
+		{{ room_selected.slug|json_script:"json-roomname" }}
+		{{ request.user.username|json_script:"json-username" }}
 
-    <script>
-        const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
-        const userName = JSON.parse(document.getElementById('json-username').textContent);
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/'
-            + roomName
-            + '/'
-        );
+		<script>
+			const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+			const userName = JSON.parse(document.getElementById('json-username').textContent);
+			const chatSocket = new WebSocket(
+				'ws://'
+				+ window.location.host
+				+ '/ws/'
+				+ roomName
+				+ '/'
+			);
 
-        chatSocket.onclose = function(e) {
-            console.log('onclose')
-        }
+			chatSocket.onclose = function(e) {
+				console.log('onclose')
+			}
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
+			chatSocket.onmessage = function(e) {
+				const data = JSON.parse(e.data);
 
-            if (data.message) {
-                document.querySelector('#chat-messages').innerHTML += (
-                  '<div class="mx-4"><div class="rounded-pill bg-secondary py-2 px-4 my-3 float-end" style="width: max-content;"><b>'
-                  + data.username + 
-                  '</b> :</br>'
-                  + data.message +
-                  '</div></div>'
-                );
-            } else {
-                alert('The message was empty!')
-            }
+				if (data.message) {
+					if(data.username == userName){ 
+					place = " float-end"
+					}
+					else{ 
+					place = ""
+					}
+					document.querySelector('#chat-messages').innerHTML += (
+					'<div class="mx-4"><div class="rounded-pill bg-secondary py-2 px-4 my-3'
+					+ place +
+					'" style="width: max-content;"><b>'
+					+ data.username + 
+					'</b> :</br>'
+					+ data.message +
+					'</div></div>'
+					);
+				} else {
+					alert('The message was empty!')
+				}
 
-            scrollToBottom();
-        };
+				scrollToBottom();
+			};
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+			document.querySelector('#chat-message-input').focus();
+			document.querySelector('#chat-message-input').onkeyup = function(e) {
+				if (e.keyCode === 13) {
+					document.querySelector('#chat-message-submit').click();
+				}
+			};
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            e.preventDefault()
+			document.querySelector('#chat-message-submit').onclick = function(e) {
+				e.preventDefault()
 
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
+				const messageInputDom = document.querySelector('#chat-message-input');
+				const message = messageInputDom.value;
 
-            console.log({
-                'message': message,
-                'username': userName,
-                'room': roomName
-            })
+				console.log({
+					'message': message,
+					'username': userName,
+					'room': roomName
+				})
 
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': userName,
-                'room': roomName
-            }));
+				chatSocket.send(JSON.stringify({
+					'message': message,
+					'username': userName,
+					'room': roomName
+				}));
 
-            messageInputDom.value = '';
+				messageInputDom.value = '';
 
-            return false
-        };
+				return false
+			};
 
-        function scrollToBottom() {
-            let objDiv = document.getElementById("chat-messages");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
+			function scrollToBottom() {
+				let objDiv = document.getElementById("chat-messages");
+				objDiv.scrollTop = objDiv.scrollHeight;
+			}
 
-        scrollToBottom();
-    </script>
-  {% endif %}
+			scrollToBottom();
+		</script>
+	{% endif %}
 {% endblock %}

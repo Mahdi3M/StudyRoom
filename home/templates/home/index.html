@@ -2,98 +2,119 @@
 {% load static %}
 
 {% block body %}
-<div class="container">
-  {% if user.is_authenticated %}
-    <div class="text-secondary px-4 py-5 mt-5 text-center">
-      <div class="py-5 bg-dark rounded-3">
-        <h1 class="display-5 fw-bold text-white">Welcome {{ user.first_name }} {{ user.last_name }}</h1>
-        <div class="col-lg-6 mx-auto">
-        </div>
-      </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4 my-5 justify-content-around">
-      <div class="col-3 rounded-3">
-        <a href="{% url 'rooms' %}" class="text-decoration-none"> 
-          <div class="card h-100 bg-dark text-white">
-            <img
-              src="{% static 'icons/card1.png' %}"
-              class="card-img-top"
-              alt="Hollywood Sign on The Hill"
-            />
-            <div class="card-body text-center">
-              <h5 class="card-title">Chat Room</h5>
-            </div>
-          </div>
-        </a> 
-      </div>
-      <div class="col-3 rounded-3">
-        <a href="{% url 'dictionary_page' %}" class="text-decoration-none">
-          <div class="card h-100 bg-dark text-white">
-            <img
-              src="{% static 'icons/card2.png' %}"
-              class="card-img-top"
-              alt="Palm Springs Road"
-            />
-            <div class="card-body text-center">
-              <h5 class="card-title">Dictionary</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-3 rounded-3">
-        <a href="{% url 'notes_page' %}" class="text-decoration-none">
-          <div class="card h-100 bg-dark text-white">
-            <img
-              src="{% static 'icons/card3.png' %}"
-              class="card-img-top"
-              alt="Los Angeles Skyscrapers"
-            />
-            <div class="card-body text-center">
-              <h5 class="card-title">Notes</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  {% else %}
-      <div class="container pt-5 mt-5">
-        <div class="row d-flex justify-content-center align-items-center">
-          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div class="card bg-dark text-white" style="border-radius: 1rem">
-              <div class="card-body p-5 text-center">
-                <div class="mb-md-5 mt-md-4">
-                  <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                  <p class="text-white-50 mb-5">
-                    Please enter your login and password!
-                  </p>
-                  <form action="{% url 'home_page' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="form-floating mb-4">
-                      <input type="text" id="login_username" name="username" class="form-control form-control-lg bg-dark text-white" placeholder="User Name"/>
-                      <label class="form-label" for="login_username">User Name</label>
-                    </div>
+	<div class="container d-flex flex-column justify-content-center vh-100">
+		{% if user.is_authenticated %}
+			<div class="text-secondary px-4 py-5 text-center">
+				<div class="py-5 bg-dark rounded-3">
+					<h1 class="display-5 fw-bold text-white">
+						Welcome {{ user.first_name }} {{ user.last_name }}
+					</h1>
+					<div class="col-lg-6 mx-auto">
+					</div>
+				</div>
+			</div>
+			<div class="row row-cols-1 row-cols-md-3 g-4 my-5 justify-content-around">
+				<div class="col-3 rounded-3">
+					<a href="{% url 'rooms' %}" class="text-decoration-none"> 
+						<div class="card h-100 bg-dark text-white">
+							<img
+								src="{% static 'icons/card1.png' %}"
+								class="card-img-top"
+								alt="Hollywood Sign on The Hill"/>
+							<div class="card-body text-center">
+								<h5 class="card-title">
+									Chat Room
+								</h5>
+							</div>
+						</div>
+					</a> 
+				</div>
+				<div class="col-3 rounded-3">
+					<a href="{% url 'dictionary_page' %}" class="text-decoration-none">
+						<div class="card h-100 bg-dark text-white">
+							<img
+								src="{% static 'icons/card2.png' %}"
+								class="card-img-top"
+								alt="Palm Springs Road"/>
+							<div class="card-body text-center">
+								<h5 class="card-title">
+									Dictionary
+								</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-3 rounded-3">
+					<a href="{% url 'notes_page' %}" class="text-decoration-none">
+						<div class="card h-100 bg-dark text-white">
+							<img
+								src="{% static 'icons/card3.png' %}"
+								class="card-img-top"
+								alt="Los Angeles Skyscrapers"/>
+							<div class="card-body text-center">
+								<h5 class="card-title">
+									Notes
+								</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		{% else %}
+			<div class="container pt-5 mt-5">
+				<div class="row d-flex justify-content-center align-items-center">
+					<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+						<div class="card bg-dark text-white" style="border-radius: 1rem">
+							<div class="card-body p-5 text-center">
+								<div class="mb-md-5 mt-md-4">
+									<h2 class="fw-bold mb-2 text-uppercase">
+										Login
+									</h2>
+									<p class="text-white-50 mb-5">
+										Please enter your login and password!
+									</p>
+									<form action="{% url 'home_page' %}" method="POST">
+										{% csrf_token %}
+										<div class="form-floating mb-4">
+											<input	
+												type="text" 
+												id="login_username" 
+												name="username" 
+												class="form-control form-control-lg bg-dark text-white" 
+												placeholder="User Name"/>
+											<label class="form-label" for="login_username">
+												User Name
+											</label>
+										</div>
 
-                    <div class="form-floating mb-4">
-                      <input type="password" id="login_password" name="password" class="form-control form-control-lg bg-dark text-white" placeholder="password"/>
-                      <label class="form-label" for="login_password">Password</label>
-                    </div>
+										<div class="form-floating mb-4">
+											<input	
+												type="password" 
+												id="login_password" 
+												name="password" 
+												class="form-control form-control-lg bg-dark text-white" 
+												placeholder="password"/>
+											<label class="form-label" for="login_password">Password</label>
+										</div>
 
-                    <button class="btn btn-outline-light btn-lg px-5 mt-5" type="submit">
-                      Login
-                    </button>
-                  </form>
-                </div>
-                <div>
-                  <p class="mb-0">
-                    Don't have an account?
-                    <a href={% url 'register_page' %} class="text-white-50 fw-bold" > Sign Up </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  {% endif %}
-</div>
+										<button class="btn btn-outline-light btn-lg px-5 mt-5" type="submit">
+											Login
+										</button>
+									</form>
+								</div>
+								<div>
+									<p class="mb-0">
+										Don't have an account?
+										<a href={% url 'register_page' %} class="text-white-50 fw-bold" >
+											Sign Up
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
 {% endblock body %}

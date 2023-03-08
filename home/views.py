@@ -15,30 +15,35 @@ def home_page(request):
 
         if user is not None:
             login(request, user)
-            return render(request, "home/index.html")
+            messages.success(request, "You are succesfully logged in.")
+            return redirect('home_page')
         else:
-            messages.error(request, "Bad Credentials")
+            messages.error(request, "Username or Password is wrong.")
             return redirect('home_page')
     return render(request, "home/index.html")
 
 
 def register_page(request):
     if request.method == "POST":
-        firstname = request.POST.get('firstName')
-        lastname = request.POST.get('lastName')
-        email = request.POST.get('email')
-        username = request.POST.get('userName')
-        password = request.POST.get('password')
-        repassword = request.POST.get('repassword')
+        try:
+            firstname = request.POST.get('firstName')
+            lastname = request.POST.get('lastName')
+            email = request.POST.get('email')
+            username = request.POST.get('userName')
+            password = request.POST.get('password')
+            repassword = request.POST.get('repassword')
+        except Exception:
+            messages.error("Wrong credentials.")
+            return render(request, "home/index.html")
 
         if password == repassword:
             myuser = User.objects.create_user(username, email, password)
             myuser.first_name = firstname
             myuser.last_name = lastname
-
+            
             myuser.save()
             messages.success(request, "Your Account has been successfully created.")
-            redirect('home_page')
+            return render(request, "home/index.html")
         else:
             messages.error(request, "Password did not match.")
 
@@ -47,4 +52,5 @@ def register_page(request):
 
 def log_out(request):
     logout(request)
+    messages.success(request, "You are successfully logged out.")
     return redirect('home_page')

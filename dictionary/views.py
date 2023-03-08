@@ -6,18 +6,18 @@ from pydictionary import Dictionary
 
 def dictionary_page(request):
     search = ''
-    meaning = ''
+    meanings = ''
     synonym = ''
     antonym = ''
     if request.method == "POST":
         search = request.POST.get('search')
         dict = Dictionary(search)
-        meaning = dict.meanings()
+        meanings = dict.meanings()
         synonym = dict.synonyms()
         antonym = dict.antonyms()
     return render(request, "dictionary/dictionary.html", {
         'search': search.capitalize(),
-        'meanings': meaning,
+        'meanings': meanings,
         'synonyms': synonym,
         'antonyms': antonym
     })

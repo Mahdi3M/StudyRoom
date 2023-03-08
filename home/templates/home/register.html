@@ -1,94 +1,104 @@
-{% extends 'layout.html' %} {% block body %}
-  <div class="container pt-5 mt-5">
-    <div class="row d-flex justify-content-center align-items-center">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card mb-5 bg-dark text-white" style="border-radius: 1rem">
-          <div class="card-body p-5 text-center">
-            <div class="md-5 mt-md-4">
-              <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
-              <p class="text-white-50 mb-5">
-                Please enter your login and password!
-              </p>
-              <form action="{% url 'register_page' %}" method="POST">
-                {% csrf_token %}
-                <div class="form-floating mb-4">
-                  <input
-                    type="text"
-                    id="reg_firstName"
-                    name="firstName"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="First Name"
-                  />
-                  <label class="form-label" for="firstName">First Name</label>
-                </div>
+{% extends 'layout.html' %}
+{% block body %}
+	<div class="container pt-5 mt-5">
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+				<div class="card mb-5 bg-dark text-white" style="border-radius: 1rem">
+					<div class="card-body p-5 text-center">
+						<div class="md-5 mt-md-4">
+							<h2 class="fw-bold mb-2 text-uppercase">
+								Register
+							</h2>
+							<p class="text-white-50 mb-5">
+								Please enter your login and password!
+							</p>
+							<form action="{% url 'register_page' %}" method="POST">
+								{% csrf_token %}
+								<div class="form-floating mb-4">
+									<input
+										type="text"
+										id="reg_firstName"
+										name="firstName"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="First Name"
+										required/>
+									<label class="form-label" for="firstName">
+										First Name
+									</label>
+								</div>
 
-                <div class="form-floating mb-4">
-                  <input
-                    type="text"
-                    id="reg_lastName"
-                    name="lastName"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="Last Name"
-                  />
-                  <label class="form-label" for="lastName">Last Name</label>
-                </div>
+								<div class="form-floating mb-4">
+									<input	
+										type="text"
+										id="reg_lastName"
+										name="lastName"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="Last Name"
+										required/>
+									<label class="form-label" for="lastName">
+										Last Name
+									</label>
+								</div>
 
-                <div class="form-floating mb-4">
-                  <input
-                    type="email"
-                    id="reg_email"
-                    name="email"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="Email"
-                  />
-                  <label class="form-label" for="email">Email</label>
-                </div>
+								<div class="form-floating mb-4">
+									<input	
+										type="email"
+										id="reg_email"
+										name="email"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="Email"
+										required/>
+									<label class="form-label" for="email">
+										Email
+									</label>
+								</div>
 
-                <div class="form-floating mb-4">
-                  <input
-                    type="text"
-                    id="reg_userName"
-                    name="userName"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="User Name"
-                  />
-                  <label class="form-label" for="lastName">User Name</label>
-                </div>
+								<div class="form-floating mb-4">
+									<input	
+										type="text"
+										id="reg_userName"
+										name="userName"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="User Name"
+										required/>
+									<label class="form-label" for="lastName">
+										User Name
+									</label>
+								</div>
 
-                <div class="form-floating mb-4">
-                  <input
-                    type="password"
-                    id="reg_password"
-                    name="password"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="Password"
-                  />
-                  <label class="form-label" for="password">Password</label>
-                </div>
+								<div class="form-floating mb-4">
+									<input	
+										type="password"
+										id="reg_password"
+										name="password"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="Password"
+										required/>
+									<label class="form-label" for="password">
+										Password
+									</label>
+								</div>
 
-                <div class="form-floating mb-4">
-                  <input
-                    type="password"
-                    id="reg_repassword"
-                    name="repassword"
-                    class="form-control form-control-lg bg-dark text-white"
-                    placeholder="repassword"
-                  />
-                  <label class="form-label" for="password"
-                    >Retype Password</label
-                  >
-                </div>
-                <button
-                  class="btn btn-outline-light btn-lg px-5 mt-5"
-                  type="submit"
-                >
-                  Save
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+								<div class="form-floating mb-4">
+									<input	
+										type="password"
+										id="reg_repassword"
+										name="repassword"
+										class="form-control form-control-lg bg-dark text-white"
+										placeholder="repassword"
+										required/>
+									<label class="form-label" for="password">
+										Retype Password
+									</label>
+								</div>
+								<button	class="btn btn-outline-light btn-lg px-5 mt-5" type="submit">
+									Save
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock body %}
